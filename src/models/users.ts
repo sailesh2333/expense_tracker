@@ -1,8 +1,8 @@
-import { DataTypes, Model, Optional } from "sequelize";
+import { DataTypes, Model, Optional, UUIDV4 } from "sequelize";
 import {sequelize} from "../config/database";
 
 interface user_attributes{
-  id:number;
+  id:string;
   name:string;
   email:string;
   password:string;
@@ -14,7 +14,7 @@ interface user_creation_attribute extends Optional<user_attributes,"id"|"created
 
 export class users extends Model<user_attributes,user_creation_attribute> 
 implements user_attributes{
-  public id! :number;
+  public id! :string;
   public name!:string;
   public email!: string;
   public password!: string;
@@ -25,8 +25,8 @@ implements user_attributes{
 users.init(
     {
       id: {
-        type:DataTypes.BIGINT,
-        autoIncrement : true,
+        type:DataTypes.UUID,
+        defaultValue:UUIDV4,
         primaryKey:true
       },
       name : {
