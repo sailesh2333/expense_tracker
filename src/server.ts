@@ -1,23 +1,56 @@
 import { HostNotFoundError } from "sequelize";
 import { sequelize } from "./config/database";
-import "./models/users"
-import "./models/currency"
-import { users } from "./models/users";
-import { currency } from "./models/currency";
+import app from "./app";
+import "./models"
+// import "./models/users"
+// import "./models/currency"
+// import { users } from "./models/users";
+// import { currency } from "./models/currency";
+
+
+const port = 3000;
+
+const startserver = async ()=>{
+    try{
+        await sequelize.authenticate();
+        console.log("database connected");
+
+        await sequelize.sync();
+        console.log("tables created sucessfully")
+
+        app.listen(port,()=>{
+            console.log(`server started in port ${port}`)
+        })
+    }catch(err){
+        console.error("server error",err);
+    };
+};
+
+
+startserver();
+
+
+
+
+
+
 // db connection
 // sequelize.authenticate()
 //          .then(()=>console.log("db connected sucessfully"))
 //          .catch((error)=>console.error("db not connected "))
 
 
-//  async function user_table() {
-//    await sequelize.sync();    
-//    console.log("user_table created");
-//  }
-//   user_table()
+//  async function database() {
+//        try {
+//         await sequelize.sync();
+//         console.log("all table created")
 
-
-
+//        } catch (err) {
+//         console.error(err,"error in database")
+        
+//        }
+//     }
+//   database()
 
 // async function startserver(){
 //      try{
@@ -34,9 +67,7 @@ import { currency } from "./models/currency";
 //      }catch(err){
 //       console.error("error in server",err)
 //      }
-
 // }
-
 // async function deleteuser(name:string) {
 // try{
 //     await sequelize.sync();
@@ -48,9 +79,7 @@ import { currency } from "./models/currency";
 //     else{
 //         console.log("user deleted",deluser)
 //     }
-
 // }catch(err){console.error(err,"error in server")}    
 // }
-
 // deleteuser("sailesh");
 // startserver()

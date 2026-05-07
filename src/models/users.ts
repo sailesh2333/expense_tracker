@@ -1,11 +1,11 @@
-import { DataTypes, Model, Optional, UUIDV4 } from "sequelize";
+import { DataTypes, Model, Optional} from "sequelize";
 import {sequelize} from "../config/database";
 
 interface user_attributes{
   id:string;
   name:string;
   email:string;
-  password:string;
+  password:Text;
   created_at?: Date;
   deleted_at?:Date|null;
 }
@@ -17,7 +17,7 @@ implements user_attributes{
   public id! :string;
   public name!:string;
   public email!: string;
-  public password!: string;
+  public password!: Text;
   public created_at?: Date;
   public deleted_at?: Date | null;
 }
@@ -26,11 +26,11 @@ users.init(
     {
       id: {
         type:DataTypes.UUID,
-        defaultValue:UUIDV4,
+        defaultValue:DataTypes.UUIDV4,
         primaryKey:true
       },
       name : {
-        type:DataTypes.STRING,
+        type:DataTypes.STRING(100),
         allowNull:false
       },
       email :{
@@ -39,7 +39,7 @@ users.init(
         unique:true
       },
       password:{
-        type: DataTypes.STRING,
+        type: DataTypes.TEXT,
         allowNull:false
       }
     },
