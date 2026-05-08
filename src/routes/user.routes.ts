@@ -6,13 +6,14 @@ const router = Router();
 
 router.post("/createuser",createuser);
 
-router.get("/",getalluser);
+router.get("/all",getalluser);
 
-router.get("/:id",userbyid);
+router.post("/byid",userbyid);
 
-router.put("/:id",updateuser);
+router.put("/update",updateuser);
 
-router.delete("/",deleteuser);
+router.delete("/delete",deleteuser);
+
 
 // router.delete("/", (req, res) => {
 //     console.log("DELETE WORKING");

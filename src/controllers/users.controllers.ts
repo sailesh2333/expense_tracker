@@ -1,5 +1,5 @@
 import { Request,Response } from "express";
-import { createuserservices,getallusersservices,getbyidservices,updateuserbyidservices,deletebyemailservices } from "../services/users.services";
+import { createuserservices,getallusersservices,getbyidservices,updateuserbyidservices,deletebyemailservices} from "../services/users.services";
 
 
 // createuser
@@ -40,10 +40,17 @@ export const getalluser = async(req:Request,res:Response)=>{
 }
 
 export const userbyid = async(req:Request,res:Response)=>{
-    const {id} = req.body
-    // console.log("ID",id);
+    const {email} = req.body
+    console.log("ID",email);
      try {
-    const user = await getbyidservices(id);
+    const user = await getbyidservices(email);
+
+     if (!user){
+        return res.status(404).json({
+            message:"user not found"
+        })
+     }
+
     return res.status(200).json(user)
   } catch (err:any) {
     res.status(500).json({

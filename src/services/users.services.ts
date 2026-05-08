@@ -21,8 +21,11 @@ export const getallusersservices = async()=>{
 
 // get user by id 
 
-export const getbyidservices = async(id:any)=>{
-    const user  = await users.findByPk(id);
+export const getbyidservices = async(mail:any)=>{
+    console.log("Entered")
+    const user  = await users.findOne({
+        where: {email:mail}
+    });
     console.log(user)
     return user;
 }   
