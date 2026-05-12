@@ -2,6 +2,9 @@ import { HostNotFoundError } from "sequelize";
 import { sequelize } from "./config/database";
 import app from "./app";
 import "./models"
+import dotenv from "dotenv"
+
+dotenv.config();
 // import "./models/users"
 // import "./models/currency"
 // import { users } from "./models/users";
@@ -17,6 +20,8 @@ const startserver = async ()=>{
 
         await sequelize.sync();
         console.log("tables created sucessfully")
+
+    
 
         app.listen(port,()=>{
             console.log(`server started in port ${port}`)

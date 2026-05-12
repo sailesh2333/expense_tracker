@@ -5,7 +5,7 @@ interface user_attributes{
   id:string;
   name:string;
   email:string;
-  password:Text;
+  password:string;
   created_at?: Date;
   deleted_at?:Date|null;
 }
@@ -17,7 +17,7 @@ implements user_attributes{
   public id! :string;
   public name!:string;
   public email!: string;
-  public password!: Text;
+  public password!: string;
   public created_at?: Date;
   public deleted_at?: Date | null;
 }
