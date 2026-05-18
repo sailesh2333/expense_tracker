@@ -36,7 +36,7 @@ export const register = async (req:Request,res:Response)=>{
 
 
         const {email,password} = req.body;
-        console.log(email+" "+password)
+        // console.log(email+" "+password)
         const user = await users.findOne({where:{email}});
 
         if(!user){

@@ -1,5 +1,5 @@
 import { Request,Response } from "express";
-import { createcurrencyservicesvices,getallservices,getbyinrservices } from "../services/currency.services";
+import { createcurrencyservicesvices,getallservices,getbyinrservices } from "../services/currency-services";
 
 export const createcurrency =async(req:Request,res:Response)=>{
     try {

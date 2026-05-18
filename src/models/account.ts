@@ -7,7 +7,7 @@ interface accounts_attribute{
     name:string;
     currency_id:string;
     account_type:string;
-    balance:number;
+    balance_amount:number;
     created_at?:Date;
     deleted_at?:Date;
 }
@@ -20,7 +20,7 @@ export class accounts extends Model<accounts_attribute,accounts_creation_attribu
     public name!: string;
     public currency_id!:string;
     public account_type!:string;
-    public balance!:number;
+    public balance_amount!:number;
     public created_at?:Date;
     public deleted_at?:Date;
 }
@@ -46,7 +46,7 @@ accounts.init({
         type:DataTypes.STRING(100),
         allowNull:false
     },
-    balance:{
+    balance_amount:{
         type:DataTypes.DECIMAL(15,2),
         allowNull:false
     },

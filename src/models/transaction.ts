@@ -9,7 +9,7 @@ interface transaction_attribute {
     currency_id:string;
     amount:number;
     transaction_type:"income"|"expense";
-    description : Text;
+    description : string;
     transaction_date?:Date;
     created_at?:Date;
     deleted_at?:Date|null;
@@ -25,7 +25,7 @@ export class transactions extends Model<transaction_attribute,transaction_creati
     public currency_id!:string;
     public amount!: number;
     public transaction_type!:"income"|"expense";
-    public description!:Text;
+    public description!:string;
     public transaction_date?:Date;
     public created_at?:Date;
     public deleted_at?:Date|null;
