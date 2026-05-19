@@ -14,6 +14,14 @@ export const createCategory = async( data:createCategorisInput)=>{
     return category;
 }
 
+// show category name 
+export const getAllCategory = async(userID:any)=>{
+    const categorie = await categories.findAll({
+        attributes:['name'],
+        where:{users_id:userID}
+    })
+    return categorie;
+}
 
 
 

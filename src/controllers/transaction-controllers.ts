@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { createTransaction } from "../services/transaction.services";
+import { createTransaction,getTransaction } from "../services/transaction.services";
 import { authrequest } from "../middleware/auth-middleware";
 import { currency } from "../models/currency";
 import { accounts } from "../models/account";
@@ -45,4 +45,20 @@ export const createTransactionController = async(req:authrequest,res:Response)=>
     })
    }
    
+}
+
+
+export const getTransactionController = async(req:authrequest,res:Response)=>{
+    try {
+        const gettrans = await getTransaction(req.user?.id);
+        
+        res.status(200).json({
+            gettrans
+        })
+        
+    } catch (err:any) {
+        res.status(404).json({
+            message:err.message
+        })
+    }
 }

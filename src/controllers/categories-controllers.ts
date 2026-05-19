@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { createCategory } from "../services/categories-services";
+import { createCategory,getAllCategory } from "../services/categories-services";
 import { authrequest } from "../middleware/auth-middleware";
     
 export const createCategorisController = async(req:authrequest,res:Response)=>{
@@ -24,6 +24,22 @@ try {
   })
   
 }
+}
+export const getNameCategorieController = async(req:authrequest,res:Response)=>{
+  try {
+
+    const getcategory = await getAllCategory(req.user?.id)
+    
+    return res.status(201).json({
+      getcategory
+    })
+    
+  } catch (err:any) {
+    res.status(404).json({
+      message:err.message
+    })
+  }
+
 }
       
  

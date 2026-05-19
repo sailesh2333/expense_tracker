@@ -1,5 +1,5 @@
 import { Request,Response } from "express";
-import { createAcccounts } from "../services/accounts-services";
+import { createAcccounts,accountName } from "../services/accounts-services";
 import { authrequest } from "../middleware/auth-middleware";
 import { currency } from "../models/currency";
 
@@ -33,4 +33,17 @@ export const createAccountsController = async(req:authrequest,res:Response) =>{
     })
   }
 
+}
+export const getAccountController = async(req:authrequest,res:Response)=>{
+  try {
+    const getAccountName = await accountName(req.user?.id);
+    
+    res.status(201).json({
+      getAccountName
+    })
+  } catch (err:any) {
+    res.status(401).json({
+      message:err.message
+    })
+  }
 }

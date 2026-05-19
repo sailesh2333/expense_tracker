@@ -13,3 +13,11 @@ export const createAcccounts = async(data:createAccountsInput)=>{
        const create_accounts = await accounts.create(data)
        return create_accounts;
 }
+
+export const accountName =async(userID:any)=>{
+       const getAccount = await accounts.findAll({
+           attributes:['name','balance_amount'],
+           where:{users_id:userID}   
+       })
+       return getAccount
+}
