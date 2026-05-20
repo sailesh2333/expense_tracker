@@ -1,10 +1,18 @@
 import { Response } from "express";
-import { createCategory,getAllCategory } from "../services/categories-services";
+import { createCategory,getAllCategory,updateCategories,deletecategories } from "../services/categories-services";
 import { authrequest } from "../middleware/auth-middleware";
+import { categories } from "../models/categories";
     
+// create category
 export const createCategorisController = async(req:authrequest,res:Response)=>{
 try {
     const {name,type,color,describe} = req.body;
+
+    if (!name || !type || !color ||!describe){
+      return res.status(400).json({
+        message:"name , type ,color, describe are requeried"
+      })
+    }
 
     const Category = await createCategory({
       name,
@@ -24,7 +32,10 @@ try {
   })
   
 }
-}
+};
+
+//get category
+
 export const getNameCategorieController = async(req:authrequest,res:Response)=>{
   try {
 
@@ -39,7 +50,67 @@ export const getNameCategorieController = async(req:authrequest,res:Response)=>{
       message:err.message
     })
   }
+}
+
+// update category name 
+
+export const updateCategoriesController = async(req:authrequest,res:Response)=>{
+  try {
+        const {id,name,type,describe} = req.body;
+        
+        if(!id){
+          return res.status(400).json({
+            message:"accountid is requried"
+          });
+        };
+
+        if(name === undefined && type === undefined && type === undefined && describe === undefined){
+          return res.status(400).json({
+            message:"all fields are requeried"
+          });
+        };
+        
+        const categorie = await updateCategories(id,{name,type,describe},(req.user?.id)as string);
+        res.status(201).json({
+          message:`categories updated successfully`,
+        });
+  } catch (err:any) {
+    res.status(404).json({
+      message:err.message
+    })
+
+  }
+}
+
+// delete category
+
+export const DeleteCategoriesController = async(req:authrequest,res:Response)=>{
+try {
+     const {id} = req.body;
+
+     if (!id) {
+      return res.status(400).json({
+        message: "category id is required",
+      });
+    }
+     const deleteData = await deletecategories(id,(req.user?.id)as string);
+
+        if (deleteData === 0) {
+      return res.status(404).json({
+        message: "category not found",
+      });
+    }
+
+     return res.status(200).json({
+      message:"deleted successfully"
+     })
+      
+
+  
+} catch (err:any) {
+  res.status(400).json({
+    message:err.message
+  })
 
 }
-      
- 
+}

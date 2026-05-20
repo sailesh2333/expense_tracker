@@ -30,7 +30,7 @@
 //     return user;
 // }   
 
-// // update user 
+// update user 
 
 // export const updateuserbyidservices = async(id:string,data:any)=>{
 
