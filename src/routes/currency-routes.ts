@@ -4,7 +4,7 @@ import { createcurrency,getallcurrency,getbycode } from "../controllers/currency
 const currency_router = Router();
 
 
-currency_router.get("/all",getallcurrency);
+currency_router.get("/",getallcurrency);
 currency_router.post("/create",createcurrency);
 currency_router.post("/bycode",getbycode);
 
