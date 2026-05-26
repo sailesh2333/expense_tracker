@@ -39,7 +39,7 @@ export const register = async (req:Request,res:Response)=>{
 
         if(!user){
             return res.status(400).json({
-                message:"invalid credientials"
+                message:"invalid email"
             });
         }
         console.log("User Obtained");
@@ -47,7 +47,7 @@ export const register = async (req:Request,res:Response)=>{
         console.log(validpass)
         if(!validpass){
             return res.status(400).json({
-            message: " invalid credientials"    
+            message: " invalid password"    
             })
         };
         const token = jwt.sign(

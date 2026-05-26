@@ -5,7 +5,7 @@ import { createTransactionController,getTransactionController,updateTransactionC
 const transaction_route = Router();
 
 transaction_route.post("/create",authmiddleware,createTransactionController);
-transaction_route.get("/name",authmiddleware,getTransactionController);
+transaction_route.get("/",authmiddleware,getTransactionController);
 transaction_route.patch("/update",authmiddleware,updateTransactionController);
 transaction_route.delete("/delete",authmiddleware,deleteTransactionController);
 export default transaction_route;

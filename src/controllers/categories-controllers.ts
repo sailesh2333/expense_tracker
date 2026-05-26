@@ -6,13 +6,15 @@ import { categories } from "../models/categories";
 // create category
 export const createCategorisController = async(req:authrequest,res:Response)=>{
 try {
-    const {name,type,color,describe} = req.body;
+    const {name,type,describe} = req.body;
 
-    if (!name || !type || !color ||!describe){
+    if (!name || !type  ||!describe){
       return res.status(400).json({
-        message:"name , type ,color, describe are requeried"
+        message:"name , type , describe are requeried"
       })
     }
+    
+    const color = type === "income" ? "green" :"red";
 
     const Category = await createCategory({
       name,

@@ -5,10 +5,12 @@ import categories_router from "./routes/categories-routes";
 import accounts_router from "./routes/accounts-routes";
 import auth_router from "./routes/auth-routes";
 import transaction_route from "./routes/transaction-routes";
+import cors from "cors";
 
 const app = express();
 
 app.use(express.json());
+app.use(cors());
 
 // app.use("/api/users",router);
 

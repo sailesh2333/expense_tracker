@@ -11,7 +11,7 @@ dotenv.config();
 // import { currency } from "./models/currency";
 
 
-const port = 3000;
+const port = 8000;
 
 const startserver = async ()=>{
     try{

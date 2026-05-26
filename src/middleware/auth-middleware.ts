@@ -12,6 +12,7 @@ export interface authrequest extends Request{
 
 export const authmiddleware = async (req:Request,res:Response,next : NextFunction)=>{
     try {
+        console.log(JSON.stringify(req.header));
         const authheader = req.headers.authorization;
         
        if (!authheader){
