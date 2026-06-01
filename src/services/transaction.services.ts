@@ -15,7 +15,7 @@ interface createTrasactionInput {
 }
 
 
-
+//  create transaction
 export const createTransaction =async(data:createTrasactionInput)=>{
     const account = await accounts.findOne({
       where:{
@@ -41,6 +41,7 @@ export const createTransaction =async(data:createTrasactionInput)=>{
      return Transaction;
 }
 
+// get Transactions 
 export const getTransaction = async(userID:any)=>{
     const trans =  await transactions.findAll({
   attributes: [
@@ -68,60 +69,100 @@ export const getTransaction = async(userID:any)=>{
     return trans;
 }
 
-
-export const updateTransaction = async(transactionID:string,data:any,userID:string)=>{
+// update tranaction 
+export const updateTransaction = async (transactionID: string,data: any,userID: string) => {
   const findoldtransaction = await transactions.findOne({
-    where:{
-      id:transactionID,
-      users_id:userID
-    }
-  })  
+      where: {
+        id: transactionID,
+        users_id: userID,
+      },
+    });
 
-  if(!findoldtransaction){
-    throw new Error("tranaction not found");
+  if (!findoldtransaction) {
+    throw new Error(
+      "transaction not found"
+    );
   }
-   
-  const findaccount = await accounts.findOne({
-    where:{
-      id: findoldtransaction.account_id,
-      users_id:userID
-    }
+
+  const oldAccount =await accounts.findOne({
+      where: {
+        id: findoldtransaction.account_id,
+        users_id: userID,
+      },
+    });
+
+  if (!oldAccount) {
+    throw new Error(
+      "old account not found"
+    );
+  }
+
+  let oldBalance = Number(oldAccount.balance_amount);
+
+  if (findoldtransaction.transaction_type ==="expense" ){
+    oldBalance += Number(findoldtransaction.amount);
+  } else {
+    oldBalance -= Number(findoldtransaction.amount);
+  }
+
+  oldAccount.balance_amount =oldBalance;
+
+  await oldAccount.save();
+
+  /* FIND NEW ACCOUNT */
+  const newAccount =await accounts.findOne({
+      where: {
+        users_id: userID,
+        name: data.accountName,
+      },
+    });
+
+  if (!newAccount) {
+    throw new Error(
+      "new account not found"
+    );
+  }
+
+  const newCategory = await categories.findOne({
+      where: {
+        users_id: userID,
+        name: data.categoryName,
+      },
+    });
+
+  if (!newCategory) {
+    throw new Error(
+      "category not found"
+    );
+  }
+
+  let newBalance = Number(newAccount.balance_amount);
+
+  if (data.transaction_type ==="expense") {
+    newBalance -= Number(
+      data.amount
+    );
+  } else {
+    newBalance += Number(
+      data.amount
+    );
+  }
+
+  newAccount.balance_amount = newBalance;
+  await newAccount.save();
+
+  await findoldtransaction.update({
+    amount: data.amount,
+    transaction_type:data.transaction_type,
+    description:data.description,
+    account_id: newAccount.id,
+    category_id: newCategory.id,
   });
 
-    if(!findaccount){
-      throw new Error("account not found");
-    };
+  return findoldtransaction;
+};
 
-    let accountBalance =Number( findaccount.balance_amount);
-
-      if (findoldtransaction.transaction_type === "expense") {
-        accountBalance =  accountBalance + Number(findoldtransaction.amount);
-    } else {
-        accountBalance -= Number(findoldtransaction.amount);
-    };
-
-     const newAmount = data.amount;
-     const newtype = data.transaction_type; 
-
-     if (newtype === "expense"){
-          accountBalance = accountBalance - Number(newAmount);
-     }else {
-         accountBalance = accountBalance + Number(newAmount);
-     };
-
-     findaccount.balance_amount = accountBalance;
-      await findaccount.save();
-       await findoldtransaction.update({
-         amount: newAmount,
-         transaction_type: newtype,
-         description:
-             data.description ?? findoldtransaction.description
-     });
-
-    return findoldtransaction;
-
-}
-
+// delete transaction 
 export const deleteTransaction = async(transactionID:string,userID:string)=>{
        const findoldtransaction = await transactions.findOne({
         where : {

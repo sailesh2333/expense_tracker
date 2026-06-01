@@ -8,13 +8,15 @@ interface createCategorisInput {
    describe:string,
    users_id : string
 } 
-   
+// create category
+
 export const createCategory = async( data:createCategorisInput)=>{
     const category = await categories.create(data);
     return category;
 }
 
-// show category name 
+// get category
+
 export const getAllCategory = async(userID:any)=>{
     const categorie = await categories.findAll({
         attributes:['name','id','type','describe'],
@@ -23,7 +25,7 @@ export const getAllCategory = async(userID:any)=>{
     return categorie;
 }
 
-// update categories name 
+// update categories 
 
 export const updateCategories = async(categoryID:string,updateData:any,userID:string)=>{
 const categoryName = await categories.update(updateData,{
@@ -34,6 +36,7 @@ const categoryName = await categories.update(updateData,{
 });
 return categoryName;
 }
+// delete category
 
 export const deletecategories = async(categoryID:string,userID:string)=>{
     const category = await categories.destroy({
@@ -45,4 +48,3 @@ export const deletecategories = async(categoryID:string,userID:string)=>{
     return category;
     
 }
-

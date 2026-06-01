@@ -59,6 +59,8 @@ export const createTransactionController = async(req:authrequest,res:Response)=>
             account_id:(accountID?.id) as string,
             category_id:(categoryID?.id) as string
         }); 
+   
+
 
         res.status(200).json({
             message:"transaction created",
@@ -91,8 +93,8 @@ export const getTransactionController = async(req:authrequest,res:Response)=>{
 
 export const updateTransactionController = async(req:authrequest,res:Response)=>{
     try {
-        const {id,amount,transaction_type,description} = req.body;
-         
+        const {id,amount,transaction_type,description,accountName,categoryName} = req.body;
+
         if (!id) {
       return res.status(400).json({
         message: "Transaction id is required",
@@ -105,13 +107,15 @@ export const updateTransactionController = async(req:authrequest,res:Response)=>
         message: "At least one field is required to update",
       });
     }
-    // amount validation
+
     if ( amount !== undefined && typeof amount !== "number"){
       return res.status(400).json({
         message: "Amount must be a number",
       });
     }
-        const update = await updateTransaction(id,{amount,transaction_type,description},(req.user?.id)as string);
+       
+
+        const update = await updateTransaction(id,{amount,transaction_type,description,accountName,categoryName},(req.user?.id)as string);
         res.status(200).json({
             message:"trasaction updated sucessfully",
         });
@@ -123,7 +127,6 @@ export const updateTransactionController = async(req:authrequest,res:Response)=>
 };
 
 export const deleteTransactionController = async(req:authrequest,res:Response)=>{
-
 try {
      const {id} = req.body;
 
@@ -134,9 +137,7 @@ try {
     }
     
 
-     const deleteData = await deleteTransaction(id,(req.user?.id)as string);
-
-
+     const deleteData = await deleteTransaction(id,(req.user?.id)as string);  
         if (deleteData === 0) {
       return res.status(404).json({
         message: "transaction not found",
@@ -145,10 +146,7 @@ try {
 
      return res.status(200).json({
       message:"deleted successfully"
-     })
-      
-
-  
+     })  
 } catch (err:any) {
   res.status(400).json({
     message:err.message
